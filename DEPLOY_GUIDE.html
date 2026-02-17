@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deploy Butter App to GitHub Pages</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #0f0f1a; color: #e8e8f0; min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 780px; margin: 0 auto; }
+
+    .hero { text-align: center; margin-bottom: 50px; }
+    .logo { display: inline-flex; width: 72px; height: 72px; background: #fdd900; border-radius: 50%; align-items: center; justify-content: center; font-size: 2rem; font-style: italic; font-weight: 700; color: #1d1e4e; margin-bottom: 20px; box-shadow: 0 0 40px rgba(253,217,0,0.3); font-family: Georgia, serif; }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+    h1 span { color: #fdd900; }
+    .subtitle { color: rgba(255,255,255,0.45); font-size: 1rem; }
+
+    .steps { display: flex; flex-direction: column; gap: 24px; }
+
+    .step {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .step-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #fdd900; color: #1d1e4e;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .step-header h3 { font-size: 1.05rem; font-weight: 600; }
+    .step-header p { font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .step-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+    .instruction { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
+    .instruction a { color: #fdd900; text-decoration: none; }
+    .instruction a:hover { text-decoration: underline; }
+
+    .code-block {
+      background: #0a0a14;
+      border: 1px solid rgba(253,217,0,0.15);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+    }
+    .code-label { font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(253,217,0,0.5); margin-bottom: 10px; font-family: 'DM Mono', monospace; }
+    .code-block code {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.88rem;
+      color: #e8f4d4;
+      display: block;
+      line-height: 1.8;
+      white-space: pre;
+    }
+    .code-block code .comment { color: rgba(255,255,255,0.25); }
+    .copy-btn {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(253,217,0,0.1);
+      border: 1px solid rgba(253,217,0,0.2);
+      color: #fdd900; border-radius: 8px;
+      padding: 5px 12px; font-size: 0.72rem;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-weight: 600; transition: all 0.2s;
+    }
+    .copy-btn:hover { background: rgba(253,217,0,0.2); }
+
+    .tip {
+      background: rgba(253,217,0,0.06);
+      border-left: 3px solid #fdd900;
+      border-radius: 0 10px 10px 0;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+    .tip strong { color: #fdd900; }
+
+    .files-list { display: flex; flex-direction: column; gap: 8px; }
+    .file-row {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px; padding: 10px 14px;
+      font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    }
+    .file-icon { font-size: 1rem; }
+    .file-name { color: #e8f4d4; flex: 1; }
+    .file-desc { font-size: 0.75rem; color: rgba(255,255,255,0.3); font-family: 'DM Sans', sans-serif; }
+
+    .result-box {
+      background: linear-gradient(135deg, rgba(29,30,78,0.8), rgba(37,38,113,0.8));
+      border: 1px solid rgba(253,217,0,0.25);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 30px;
+    }
+    .result-box h3 { font-size: 1.1rem; color: #fdd900; margin-bottom: 8px; }
+    .result-box p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+    .url-example {
+      display: inline-block;
+      margin-top: 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(253,217,0,0.2);
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      color: #fdd900;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <div class="logo">B</div>
+    <h1>Deploy <span>Butter</span> to GitHub Pages</h1>
+    <p class="subtitle">3 steps · 5 minutes · completely free hosting</p>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Download Your Files</h3>
+          <p>Get the 3 files from Claude's output</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="instruction">Download these 3 files from Claude and put them all in one folder on your computer (e.g. a folder called <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-family:monospace">butter-app</code>):</p>
+        <div class="files-list">
+          <div class="file-row"><span class="file-icon">📄</span><span class="file-name">butter-pwa.html</span><span class="file-desc">→ rename to <strong style="color:#fdd900">index.html</strong></span></div>
+          <div class="file-row"><span class="file-icon">📋</span><span class="file-name">butter-manifest.json</span><span class="file-desc">→ rename to <strong style="color:#fdd900">manifest.json</strong></span></div>
+          <div class="file-row"><span class="file-icon">⚙️</span><span class="file-name">butter-sw.js</span><span class="file-desc">→ rename to <strong style="color:#fdd900">sw.js</strong></span></div>
+        </div>
+        <div class="tip">⚠️ <strong>Important:</strong> rename <code style="font-family:monospace">butter-pwa.html</code> to exactly <code style="font-family:monospace">index.html</code> — GitHub Pages needs this as the entry point.</div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Create a GitHub Repo</h3>
+          <p>Free account at github.com if you don't have one</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="instruction">
+          1. Go to <a href="https://github.com/new" target="_blank">github.com/new</a><br>
+          2. Name the repo: <strong>butter-app</strong><br>
+          3. Set it to <strong>Public</strong><br>
+          4. Click <strong>Create repository</strong>
+        </p>
+        <div class="tip">💡 <strong>No GitHub?</strong> Sign up free at <a href="https://github.com" target="_blank">github.com</a> — takes 2 minutes.</div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Upload & Enable Pages</h3>
+          <p>Push files and turn on GitHub Pages</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="instruction"><strong>Option A — Command Line</strong> (fastest, if you have Git installed):</p>
+        <div class="code-block">
+          <div class="code-label">Terminal / Command Prompt</div>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <code><span class="comment"># Navigate into your butter-app folder</span>
+cd butter-app
+
+<span class="comment"># Initialize git and push to GitHub</span>
+git init
+git add .
+git commit -m "🧈 Butter loyalty app — investor demo"
+git branch -M main
+git remote add origin https://github.com/YOUR-USERNAME/butter-app.git
+git push -u origin main</code>
+        </div>
+
+        <p class="instruction"><strong>Option B — No coding needed</strong> (drag & drop in browser):</p>
+        <div class="code-block">
+          <div class="code-label">Browser Steps</div>
+          <code>1. Open your new repo on github.com
+2. Click "uploading an existing file"
+3. Drag all 3 files (index.html, manifest.json, sw.js)
+4. Click "Commit changes"</code>
+        </div>
+
+        <p class="instruction"><strong>Then enable GitHub Pages:</strong></p>
+        <div class="code-block">
+          <div class="code-label">GitHub Settings</div>
+          <code>Repo → Settings → Pages
+→ Source: "Deploy from a branch"
+→ Branch: main  /  Folder: / (root)
+→ Click Save</code>
+        </div>
+        <div class="tip">⏱️ <strong>Wait ~60 seconds</strong> after saving — GitHub will build and deploy your site automatically.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-box">
+    <h3>🎉 Your app will be live at:</h3>
+    <p>Share this link with investors or generate a QR code from it so they can scan and open it on their phone during your pitch!</p>
+    <div class="url-example">https://YOUR-USERNAME.github.io/butter-app/</div>
+    <p style="margin-top:16px;font-size:0.8rem;">
+      Generate a QR for that URL at <a href="https://qr.io" target="_blank" style="color:#fdd900">qr.io</a> or <a href="https://www.qrcode-monkey.com" target="_blank" style="color:#fdd900">qrcode-monkey.com</a><br>
+      Print it on your pitch deck so investors can scan it instantly 📲
+    </p>
+  </div>
+
+</div>
+<script>
+function copyCode(btn) {
+  const code = btn.nextElementSibling.textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+</script>
+</body>
+</html>

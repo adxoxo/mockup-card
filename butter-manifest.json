@@ -1,0 +1,38 @@
+{
+  "name": "Butter — Everything Comfort Food",
+  "short_name": "Butter",
+  "description": "Puddings, Coffee & Comfort Food. Loyalty rewards & ordering app.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#1d1e4e",
+  "theme_color": "#1d1e4e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle", "shopping"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Order Now",
+      "url": "/index.html#menu",
+      "description": "Browse the menu"
+    },
+    {
+      "name": "My Rewards",
+      "url": "/index.html#rewards",
+      "description": "View your points"
+    }
+  ]
+}
